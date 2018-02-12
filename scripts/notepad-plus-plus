@@ -1,0 +1,89 @@
+#!/usr/bin/env bash
+#
+# Author:
+#   mmtrt [Taqi Raza]
+#
+# Description:
+#   notepad-plus-plus wrapper for snap
+#
+# Date: Feb 11 2018
+#
+
+ARCH="i386-linux-gnu"
+
+export LC_ALL=C.UTF-8
+export LANG=C.UTF-8
+
+export WINEVERPATH=$SNAP
+export PATH=$SNAP/bin:$SNAP/usr:bin:$PATH 
+export WINESERVER=$SNAP/bin/wineserver
+export WINELOADER=$SNAP/bin/wine
+export winepath=$SNAP/bin/winepath
+export WINEDLLPATH=$SNAP/lib/wine/fakedlls
+export WINEPREFIX=$SNAP_USER_COMMON/.wine
+export WINEDLLOVERRIDES="mscoree,mshtml="
+export WINEDEBUG=-all
+export LD_LIBRARY_PATH="$SNAP/lib:$SNAP/lib/$ARCH:$SNAP/usr/lib:$SNAP/usr/lib/$ARCH:$LD_LIBRARY_PATH"
+
+export HOME=$SNAP_USER_COMMON
+export XDG_DATA_HOME=$SNAP_USER_COMMON/usr/share
+
+# notepad-plus-plus env
+progName=notepad-plus-plus
+progRealPath=$SNAP/usr/share/$progName
+progHome=$SNAP_USER_DATA/$progName
+progBin=$progName.exe
+progReg=$progHome/xp.reg
+
+if [ ! -d $progHome ];then
+mkdir -p $progHome
+fi
+
+# Delete broken symlinks
+find -L "$progHome" -type l -delete &> /dev/null
+# Update existing symlinks, add new symlinks
+cp -urs "$progRealPath/"* "$progHome" &> /dev/null
+
+if [ ! -d $WINEPREFIX ]; then
+cat > $progReg <<'EOF'
+Windows Registry Editor Version 5.00
+
+[HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion]
+"CSDVersion"="Service Pack 3"
+"CurrentBuildNumber"="2600"
+"CurrentVersion"="5.1"
+"ProductName"="Microsoft Windows XP"
+
+[HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Windows]
+"CSDVersion"=dword:00000300
+EOF
+wine start regedit $progReg
+sleep 1
+rm $progReg &> /dev/null
+fi
+
+# Stop WINE from updating $WINEPREFIX automatically 
+if [ -d $WINEPREFIX ]; then
+chkstmp=$(cat $WINEPREFIX/.update-timestamp | grep disable | wc -l)
+    if [ $chkstmp -eq 0 ]; then
+        echo "disable" > "$WINEPREFIX/.update-timestamp"
+    fi
+fi
+
+# Switches: use -something instead of /something to avoid confusion with Unix paths
+# Also convert Unix paths to Windows paths.
+declare -a args
+
+for arg; do
+    if [[ "${arg:0:1}" = "-" ]]; then
+        args+=("${arg/#-//}")
+    else
+        args+=("$($winepath -w "$arg")")
+    fi
+done
+
+if [ -z "$1" ] ; then
+  wine "$progHome/$progBin"
+else
+  wine start /unix "$progHome/$progBin" "${args[@]}"
+fi

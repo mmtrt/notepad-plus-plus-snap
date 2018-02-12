@@ -1,15 +1,72 @@
-name: my-snap-name # you probably want to 'snapcraft register <name>'
-version: '0.1' # just for humans, typically '1.2+git' or '1.3.2'
-summary: Single-line elevator pitch for your amazing snap # 79 char long summary
+name: notepad-plus-plus
+version: 7.5.4
+summary: notepad-plus-plus is a free source code editor.
 description: |
-  This is my-snap's description. You have a paragraph or two to tell the
-  most important story about your snap. Keep it under 100 words though,
-  we live in tweetspace and your description wants to look good in the snap
-  store.
+ Based on the powerful editing component Scintilla, notepad-plus-plus is written in C++ and uses pure Win32 API and STL which ensures a higher execution speed and smaller program size. By optimizing as many routines as possible without losing user friendliness, notepad-plus-plus is trying to reduce the world carbon dioxide emissions. When using less CPU power, the PC can throttle down and reduce power consumption, resulting in a greener environment.
 
-confinement: devmode # use 'strict' once you have the right plugs and slots
+confinement: strict
+grade: stable
+architectures: [amd64, i386]
+
+apps:
+  notepad-plus-plus:
+    command: notepad-plus-plus
+    desktop: usr/share/applications/notepad-plus-plus.desktop
+    plugs: [ wayland, x11, opengl, home, desktop, desktop-legacy, hardware-observe, process-control, cups-control ]
 
 parts:
-  my-part:
-    # See 'snapcraft plugins'
+  enable-i386:
     plugin: nil
+    prepare: |
+      dpkg --add-architecture i386
+      apt update
+      apt upgrade -yy
+
+  wine-3p1:
+    after: [enable-i386]
+    plugin: dump
+    source: https://dl.winehq.org/wine-builds/ubuntu/pool/main/wine-stable-i386_3.0.0~xenial_i386.deb
+    source-type: deb
+    install: |
+      spi=$SNAPCRAFT_PART_INSTALL
+      lins=$spi/usr/share/lintian
+      docs=$spi/usr/share/doc
+      mans=$spi/usr/share/man
+      ws=opt/wine-stable
+      cp -r $ws/* $spi/ && cp -r $spi/share $spi/usr/ && rm -r $spi/opt $spi/share $mans $lins $docs
+    stage-packages:
+    - on i386:
+      - libfreetype6
+      - libpng12-0
+      - libncurses5
+      - libgnutls30
+      - libxext6
+      - libudev1
+      - libc6
+      - zlib1g
+    - on amd64:
+      - libfreetype6:i386
+      - libpng12-0:i386
+      - libncurses5:i386
+      - libgnutls30:i386
+      - libxext6:i386
+      - libudev1:i386
+      - libc6:i386
+      - zlib1g:i386
+
+  wine-3p2:
+    plugin: dump
+    source: https://dl.winehq.org/wine-builds/ubuntu/pool/main/wine-stable_3.0.0~xenial_i386.deb
+    source-type: deb
+    install: |
+      spi=$SNAPCRAFT_PART_INSTALL
+      docs=$spi/usr/share/doc
+      mans=$spi/share/man
+      ws="opt/wine-stable"
+      cp -r $ws/* $spi/ && rm -r $spi/opt $docs $mans
+
+  notepad-plus-plus:
+    plugin: dump
+    source: ./scripts
+    prepare: ./dl_npp
+    build-packages: [wget, icoutils, p7zip-full]
