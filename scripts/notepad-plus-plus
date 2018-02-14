@@ -11,9 +11,6 @@
 
 ARCH="i386-linux-gnu"
 
-export LC_ALL=C.UTF-8
-export LANG=C.UTF-8
-
 export WINEVERPATH=$SNAP
 export PATH=$SNAP/bin:$SNAP/usr:bin:$PATH 
 export WINESERVER=$SNAP/bin/wineserver
