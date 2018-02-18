@@ -31,7 +31,7 @@ mknpp () {
 mkdsk () {
 cat > notepad-plus-plus.desktop <<'EOF1'
 [Desktop Entry]
-Name=notepad-plus-plus
+Name=Notepad++
 GenericName=Text Editor
 Comment=Simple and free source code editor.
 Encoding=UTF-8
