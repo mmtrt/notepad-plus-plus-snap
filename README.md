@@ -16,7 +16,7 @@ distributions.</p>
 ## Install
 
     sudo snap install notepad-plus-plus --edge
-    sudo snap connect notepad-plus-plus:process-control core:process-control
+    sudo snap connect notepad-plus-plus:process-control
 
 ([Don't have snapd installed?](https://snapcraft.io/docs/core/install))
 
