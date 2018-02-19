@@ -20,7 +20,6 @@ parts:
     prepare: |
       dpkg --add-architecture i386
       apt update
-      apt upgrade -yy
 
   wine-3p1:
     after: [enable-i386]
