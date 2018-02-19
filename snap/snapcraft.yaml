@@ -1,5 +1,6 @@
 name: notepad-plus-plus
-version: 7.5.4
+version: latest
+version-script: cat $SNAPCRAFT_STAGE/version
 summary: notepad-plus-plus is a free source code editor.
 description: |
  Based on the powerful editing component Scintilla, notepad-plus-plus is written in C++ and uses pure Win32 API and STL which ensures a higher execution speed and smaller program size. By optimizing as many routines as possible without losing user friendliness, notepad-plus-plus is trying to reduce the world carbon dioxide emissions. When using less CPU power, the PC can throttle down and reduce power consumption, resulting in a greener environment.
@@ -65,6 +66,9 @@ parts:
       cp -r $ws/* $spi/ && rm -r $spi/opt $docs $mans $spi/share/wine/fonts
 
   notepad-plus-plus:
+    install: |
+      ver=$(wget https://notepad-plus-plus.org/download -q -S -O - 2>&1 | grep 'Version</t' | cut -c19-24 | sed 's| -||' | sed 's/ //g')
+      echo $ver > $SNAPCRAFT_STAGE/version
     plugin: dump
     source: ./scripts
     prepare: ./dl_npp
