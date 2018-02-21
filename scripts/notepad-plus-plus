@@ -45,6 +45,14 @@ mkdir -p $WINEPREFIX/drive_c/windows/Fonts
 find /usr/share/fonts/ -type f -name "*.ttf" -exec ln -vs "{}" $WINEPREFIX/drive_c/windows/Fonts/ \; &> /dev/null
 fi
 
+# Stop WINE from updating $WINEPREFIX automatically 
+if [ -f $WINEPREFIX/.update-timestamp ]; then
+chkstmp=$(cat $WINEPREFIX/.update-timestamp | grep disable | wc -l)
+    if [ $chkstmp -eq 0 ]; then
+        echo "disable" > "$WINEPREFIX/.update-timestamp"
+    fi
+fi
+
 # Switches: use -something instead of /something to avoid confusion with Unix paths
 # Also convert Unix paths to Windows paths.
 declare -a args
