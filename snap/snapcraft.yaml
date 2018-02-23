@@ -43,6 +43,7 @@ parts:
       - libxext6
       - libudev1
       - libc6
+      - libxrender1
       - zlib1g
     - on amd64:
       - libfreetype6:i386
@@ -52,6 +53,7 @@ parts:
       - libxext6:i386
       - libudev1:i386
       - libc6:i386
+      - libxrender1:i386
       - zlib1g:i386
 
   wine-3p2:
