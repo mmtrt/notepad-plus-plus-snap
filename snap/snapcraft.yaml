@@ -13,7 +13,7 @@ apps:
   notepad-plus-plus:
     command: notepad-plus-plus
     desktop: usr/share/applications/notepad-plus-plus.desktop
-    plugs: [ wayland, x11, opengl, home, desktop, desktop-legacy, hardware-observe, process-control, cups-control, removable-media ]
+    plugs: [ wayland, x11, opengl, home, desktop, desktop-legacy, network, hardware-observe, process-control, cups-control, removable-media ]
 
 parts:
   enable-i386:
