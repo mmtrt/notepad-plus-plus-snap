@@ -42,7 +42,7 @@ Icon=${SNAP}/usr/share/pixmaps/notepad-plus-plus.png
 Exec=notepad-plus-plus %F
 StartupWMClass=notepad-plus-plus.exe
 Categories=Utility;TextEditor
-MimeType=text/plain;text/css;text/html;text/x-c++hdr;text/x-c++src;text/x-chdr;text/x-java;text/x-makefile;text/x-python;text/x-sh
+MimeType=text/plain;text/css;text/html;text/x-c++hdr;text/x-c++src;text/x-chdr;text/x-java;text/x-makefile;text/x-python;text/x-sh;application/x-wine-extension-ini;
 EOF1
 sed -i -e 's|Version=|Version='"$ver"'|g' notepad-plus-plus.desktop
 }
