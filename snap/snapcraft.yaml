@@ -7,7 +7,9 @@ description: |
 
 confinement: strict
 grade: stable
-architectures: [amd64, i386]
+architectures:
+  - build-on: amd64
+    run-on: [amd64, i386]
 
 apps:
   notepad-plus-plus:
@@ -18,7 +20,8 @@ apps:
 parts:
   enable-i386:
     plugin: nil
-    prepare: |
+    override-build: |
+      snapcraftctl build
       dpkg --add-architecture i386
       apt update
 
@@ -27,7 +30,8 @@ parts:
     plugin: dump
     source: https://dl.winehq.org/wine-builds/ubuntu/pool/main/wine-stable-i386_3.0.0~xenial_i386.deb
     source-type: deb
-    install: |
+    override-build: |
+      snapcraftctl build
       spi=$SNAPCRAFT_PART_INSTALL
       lins=$spi/usr/share/lintian
       docs=$spi/usr/share/doc
@@ -35,17 +39,6 @@ parts:
       ws=opt/wine-stable
       cp -r $ws/* $spi/ && cp -r $spi/share $spi/usr/ && rm -r $spi/opt $spi/share $mans $lins $docs
     stage-packages:
-    - on i386:
-      - libfreetype6
-      - libpng12-0
-      - libncurses5
-      - libgnutls30
-      - libxext6
-      - libudev1
-      - libc6
-      - libxrender1
-      - zlib1g
-    - on amd64:
       - libfreetype6:i386
       - libpng12-0:i386
       - libncurses5:i386
@@ -60,7 +53,8 @@ parts:
     plugin: dump
     source: https://dl.winehq.org/wine-builds/ubuntu/pool/main/wine-stable_3.0.0~xenial_i386.deb
     source-type: deb
-    install: |
+    override-build: |
+      snapcraftctl build
       spi=$SNAPCRAFT_PART_INSTALL
       docs=$spi/usr/share/doc
       mans=$spi/share/man
@@ -68,10 +62,16 @@ parts:
       cp -r $ws/* $spi/ && rm -r $spi/opt $docs $mans $spi/share/wine/fonts
 
   notepad-plus-plus:
-    install: |
+    plugin: nil
+    source: ./scripts
+    override-build: |
+      snapcraftctl build
+      set -ex
       ver=$(wget https://notepad-plus-plus.org/download -q -S -O - 2>&1 | grep 'Version</t' | cut -c19-24 | sed 's| -||' | sed 's/ //g')
       echo $ver > $SNAPCRAFT_STAGE/version
-    plugin: dump
-    source: ./scripts
-    prepare: ./dl_npp
+      ./dl_npp
+    stage:
+      - bin
+      - usr
+      - share
     build-packages: [wget, icoutils, p7zip-full]

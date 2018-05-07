@@ -50,5 +50,4 @@ sed -i -e 's|Version=|Version='"$ver"'|g' notepad-plus-plus.desktop
 dlnpp
 mknpp
 mkdsk
-mv notepad-plus-plus bin && mv notepad-plus-plus.desktop usr/share/applications
-rm npp.$ver.bin.7z dl_npp
+mv notepad-plus-plus bin && mv notepad-plus-plus.desktop usr/share/applications && cp -R -p {bin,usr,share} $SNAPCRAFT_PART_INSTALL
