@@ -48,6 +48,7 @@ parts:
       - libc6:i386
       - libxrender1:i386
       - zlib1g:i386
+      - locales-all:i386
 
   wine-3p2:
     plugin: dump
