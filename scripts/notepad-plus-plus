@@ -46,7 +46,7 @@ cp -urs "$progRealPath/"* "$progHome" &> /dev/null
 
 if [ ! -d $WINEPREFIX ]; then
 mkdir -p $WINEPREFIX/drive_c/windows/Fonts
-find /usr/share/fonts/ -type f -name "*.ttf" -exec ln -vs "{}" $WINEPREFIX/drive_c/windows/Fonts/ \; &> /dev/null
+find /usr/share/fonts/ -type f \( -name "*.ttf" -o -name "*.ttc" \) -exec ln -vs "{}" $WINEPREFIX/drive_c/windows/Fonts/ \; &> /dev/null
 fi
 
 # Stop WINE from updating $WINEPREFIX automatically 
