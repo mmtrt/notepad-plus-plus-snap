@@ -50,6 +50,13 @@ if [ ! -d $WINEPREFIX ]; then
 mkdir -p $WINEPREFIX/drive_c/windows/Fonts
 find /usr/share/fonts/ -type f \( -name "*.ttf" -o -name "*.ttc" \) -exec ln -vs "{}" $WINEPREFIX/drive_c/windows/Fonts/ \; &> /dev/null
 
+#Remove xml file links & copy xml files
+for xmls in contextMenu.xml doLocalConf.xml functionList.xml langs.model.xml shortcuts.xml stylers.model.xml
+do
+rm $progHome/$xmls
+cp $progRealPath/$xmls $progHome/
+done
+
 # Check for LANG=zh_* in locale and apply font changes if it exists.
 if (locale | grep -e 'LANG=zh_CN' -e 'LANG=zh_SG') >/dev/null 2>&1; then cat > $progReg <<'EOF'
 Windows Registry Editor Version 5.00
