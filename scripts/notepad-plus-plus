@@ -46,12 +46,12 @@ find "$progHome/" -type l -delete &> /dev/null
 cp -urs "$progRealPath/"* "$progHome" &> /dev/null
 
 if [ ! -d $WINEPREFIX ]; then
-#link ttf & ttc fonts from root to wineprefix
+# link ttf & ttc fonts from root to wineprefix
 mkdir -p $WINEPREFIX/drive_c/windows/Fonts
 find /usr/share/fonts/ -type f \( -name "*.ttf" -o -name "*.ttc" \) -exec ln -vs "{}" $WINEPREFIX/drive_c/windows/Fonts/ \; &> /dev/null
 
-#Remove xml file links & copy xml files
 for xmls in contextMenu.xml doLocalConf.xml functionList.xml langs.model.xml shortcuts.xml stylers.model.xml
+# Remove xml file links & copy xml files
 do
 rm $progHome/$xmls
 cp $progRealPath/$xmls $progHome/
