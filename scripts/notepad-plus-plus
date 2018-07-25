@@ -57,6 +57,9 @@ rm $progHome/$xmls
 cp $progRealPath/$xmls $progHome/
 done
 
+# Remove xml links of themes
+rm -r $progHome/themes/*
+
 # Check for LANG=zh_* in locale and apply font changes if it exists.
 if (locale | grep -e 'LANG=zh_CN' -e 'LANG=zh_SG') >/dev/null 2>&1; then cat > $progReg <<'EOF'
 Windows Registry Editor Version 5.00
