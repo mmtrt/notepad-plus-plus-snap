@@ -60,6 +60,9 @@ done
 # Remove xml links of themes
 rm -r $progHome/themes/*
 
+# Copy back themes xml files
+find $progRealPath/themes -type f -name "*.xml" -print0 | while read -d $'\0' file; do cp -v "$file" $progHome/themes &> /dev/null; done
+
 # Check for LANG=zh_* in locale and apply font changes if it exists.
 if (locale | grep -e 'LANG=zh_CN' -e 'LANG=zh_SG') >/dev/null 2>&1; then cat > $progReg <<'EOF'
 Windows Registry Editor Version 5.00
