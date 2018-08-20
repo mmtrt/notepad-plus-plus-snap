@@ -40,14 +40,14 @@ mkdir -p $progHome
 fi
 
 # Delete broken symlinks
-find "$progHome/" -type l -delete &> /dev/null
+find "$progHome/" -type l -delete &>/dev/null
 # Update existing symlinks, add new symlinks
-cp -urs "$progRealPath/"* "$progHome" &> /dev/null
+cp -urs "$progRealPath/"* "$progHome" &>/dev/null
 
 if [ ! -d $WINEPREFIX ]; then
 # link ttf & ttc fonts from root to wineprefix
 mkdir -p $WINEPREFIX/drive_c/windows/Fonts
-find /usr/share/fonts/ -type f \( -name "*.ttf" -o -name "*.ttc" \) -exec ln -vs "{}" $WINEPREFIX/drive_c/windows/Fonts/ \; &> /dev/null
+find /usr/share/fonts/ -type f \( -name "*.ttf" -o -name "*.ttc" \) -exec ln -vs "{}" $WINEPREFIX/drive_c/windows/Fonts/ \; &>/dev/null
 
 # Remove xml file links & copy xml files
 for xmls in $(ls $progRealPath/ | grep xml)
@@ -60,7 +60,7 @@ done
 rm -r $progHome/themes/*
 
 # Copy back themes xml files
-find $progRealPath/themes -type f -name "*.xml" -print0 | while read -d $'\0' file; do cp -v "$file" $progHome/themes &> /dev/null; done
+find $progRealPath/themes -type f -name "*.xml" -print0 | while read -d $'\0' file; do cp -v "$file" $progHome/themes &>/dev/null; done
 
 # Check for LANG=zh_* in locale and apply font changes if it exists.
 if (locale | grep -e 'LANG=zh_CN' -e 'LANG=zh_SG') >/dev/null 2>&1; then cat > $progReg <<'EOF'
@@ -72,7 +72,7 @@ Windows Registry Editor Version 5.00
 EOF
 regedit $progReg
 sleep 1
-rm $progReg &> /dev/null
+rm $progReg &>/dev/null
 fi
 
 if (locale | grep -e 'LANG=zh_HK' -e 'LANG=zh_MO' -e 'LANG=zh_TW') >/dev/null 2>&1; then cat > $progReg <<'EOF'
@@ -84,7 +84,7 @@ Windows Registry Editor Version 5.00
 EOF
 regedit $progReg
 sleep 1
-rm $progReg &> /dev/null
+rm $progReg &>/dev/null
 fi
 fi
 
