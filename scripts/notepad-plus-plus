@@ -382,6 +382,88 @@ EOF
 regedit $progReg
 rm $progReg &>/dev/null
 fi
+
+if [ $CGTK == "Adapta" ]; then
+cat > $progReg <<'EOF'
+Windows Registry Editor Version 5.00
+
+[HKEY_CURRENT_USER\Control Panel\Colors]
+"ActiveBorder"="250 251 252"
+"ActiveTitle"="250 251 252"
+"AppWorkspace"="250 251 252"
+"Background"="250 251 252"
+"ButtonAlternateFace"="250 251 252"
+"ButtonDkShadow"="250 251 252"
+"ButtonFace"="250 251 252"
+"ButtonHilight"="250 251 252"
+"ButtonLight"="0 0 0"
+"ButtonShadow"="0 0 0"
+"ButtonText"="38 50 56"
+"GradientActiveTitle"="250 251 252"
+"GradientInActiveTitle"="250 251 252"
+"GrayText"="38 50 56"
+"Hilight"="0 188 212"
+"HilightText"="255 255 255"
+"HotTrackingColor"="0 188 212"
+"InActiveBorder"="250 251 252"
+"InActiveTitle"="250 251 252"
+"InActiveTitleText"="38 50 56"
+"InfoText"="38 50 56"
+"InfoWindow"="250 251 252"
+"Menu"="253 253 254"
+"MenuBar"="0 188 212"
+"MenuHilight"="34 45 50"
+"MenuText"="34 45 50"
+"Scrollbar"="250 251 252"
+"TitleText"="38 50 56"
+"Window"="255 255 255"
+"WindowFrame"="250 251 252"
+"WindowText"="38 50 56"
+EOF
+regedit $progReg
+rm $progReg &>/dev/null
+fi
+
+if [ $CGTK == "Adapta-Nokto" ]; then
+cat > $progReg <<'EOF'
+Windows Registry Editor Version 5.00
+
+[HKEY_CURRENT_USER\Control Panel\Colors]
+"ActiveBorder"="38 50 56"
+"ActiveTitle"="38 50 56"
+"AppWorkspace"="38 50 56"
+"Background"="38 50 56"
+"ButtonAlternateFace"="38 50 56"
+"ButtonDkShadow"="38 50 56"
+"ButtonFace"="38 50 56"
+"ButtonHilight"="38 50 56"
+"ButtonLight"="0 0 0"
+"ButtonShadow"="0 0 0"
+"ButtonText"="207 216 220"
+"GradientActiveTitle"="38 50 56"
+"GradientInActiveTitle"="38 50 56"
+"GrayText"="207 216 220"
+"Hilight"="0 188 212"
+"HilightText"="255 255 255"
+"HotTrackingColor"="0 188 212"
+"InActiveBorder"="38 50 56"
+"InActiveTitle"="38 50 56"
+"InActiveTitleText"="207 216 220"
+"InfoText"="207 216 220"
+"InfoWindow"="38 50 56"
+"Menu"="40 52 58"
+"MenuBar"="0 188 212"
+"MenuHilight"="34 45 50"
+"MenuText"="207 216 220"
+"Scrollbar"="38 50 56"
+"TitleText"="207 216 220"
+"Window"="34 45 50"
+"WindowFrame"="38 50 56"
+"WindowText"="207 216 220"
+EOF
+regedit $progReg
+rm $progReg &>/dev/null
+fi
 else
 cat > $progReg <<'EOF'
 Windows Registry Editor Version 5.00
