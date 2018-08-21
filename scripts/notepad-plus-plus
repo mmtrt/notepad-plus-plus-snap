@@ -177,6 +177,211 @@ EOF
 regedit $progReg
 rm $progReg &>/dev/null
 fi
+
+if [ $CGTK == "Emacs" ]; then
+cat > $progReg <<'EOF'
+Windows Registry Editor Version 5.00
+
+[HKEY_CURRENT_USER\Control Panel\Colors]
+"ActiveBorder"="233 233 233"
+"ActiveTitle"="233 233 233"
+"AppWorkspace"="233 233 233"
+"Background"="233 233 233"
+"ButtonAlternateFace"="233 233 233"
+"ButtonDkShadow"="233 233 233"
+"ButtonFace"="233 233 233"
+"ButtonHilight"="233 233 233"
+"ButtonLight"="161 161 161"
+"ButtonShadow"="161 161 161"
+"ButtonText"="46 52 54"
+"GradientActiveTitle"="233 233 233"
+"GradientInActiveTitle"="233 233 233"
+"GrayText"="141 144 145"
+"Hilight"="74 144 217"
+"HilightText"="255 255 255"
+"HotTrackingColor"="74 144 217"
+"InActiveBorder"="233 233 233"
+"InActiveTitle"="233 233 233"
+"InActiveTitleText"="141 144 145"
+"InfoText"="46 52 54"
+"InfoWindow"="233 233 233"
+"Menu"="233 233 233"
+"MenuBar"="74 144 217"
+"MenuHilight"="212 208 200"
+"MenuText"="46 52 54"
+"Scrollbar"="233 233 233"
+"TitleText"="46 52 54"
+"Window"="255 255 255"
+"WindowFrame"="233 233 233"
+"WindowText"="46 52 54"
+EOF
+regedit $progReg
+rm $progReg &>/dev/null
+fi
+
+if [ $CGTK == "Arc" ]; then
+cat > $progReg <<'EOF'
+Windows Registry Editor Version 5.00
+
+[HKEY_CURRENT_USER\Control Panel\Colors]
+"ActiveBorder"="245 246 247"
+"ActiveTitle"="245 246 247"
+"AppWorkspace"="245 246 247"
+"Background"="245 246 247"
+"ButtonAlternateFace"="245 246 247"
+"ButtonDkShadow"="245 246 247"
+"ButtonFace"="245 246 247"
+"ButtonHilight"="245 246 247"
+"ButtonLight"="220 223 227"
+"ButtonShadow"="220 223 227"
+"ButtonText"="59 62 69"
+"GradientActiveTitle"="245 246 247"
+"GradientInActiveTitle"="245 246 247"
+"GrayText"="59 62 69"
+"Hilight"="82 148 226"
+"HilightText"="255 255 255"
+"HotTrackingColor"="82 148 226"
+"InActiveBorder"="245 246 247"
+"InActiveTitle"="245 246 247"
+"InActiveTitleText"="59 62 69"
+"InfoText"="59 62 69"
+"InfoWindow"="245 246 247"
+"Menu"="245 246 247"
+"MenuBar"="82 148 226"
+"MenuHilight"="231 232 235"
+"MenuText"="53 59 75"
+"Scrollbar"="245 246 247"
+"TitleText"="59 62 69"
+"Window"="255 255 255"
+"WindowFrame"="245 246 247"
+"WindowText"="59 62 69"
+EOF
+regedit $progReg
+rm $progReg &>/dev/null
+fi
+
+if [ $CGTK == "Arc-Dark" ]; then
+cat > $progReg <<'EOF'
+Windows Registry Editor Version 5.00
+
+[HKEY_CURRENT_USER\Control Panel\Colors]
+"ActiveBorder"="56 60 74"
+"ActiveTitle"="56 60 74"
+"AppWorkspace"="56 60 74"
+"Background"="56 60 74"
+"ButtonAlternateFace"="56 60 74"
+"ButtonDkShadow"="56 60 74"
+"ButtonFace"="56 60 74"
+"ButtonHilight"="56 60 74"
+"ButtonLight"="43 46 57"
+"ButtonShadow"="43 46 57"
+"ButtonText"="211 218 227"
+"GradientActiveTitle"="56 60 74"
+"GradientInActiveTitle"="56 60 74"
+"GrayText"="211 218 227"
+"Hilight"="82 148 226"
+"HilightText"="255 255 255"
+"HotTrackingColor"="82 148 226"
+"InActiveBorder"="56 60 74"
+"InActiveTitle"="56 60 74"
+"InActiveTitleText"="211 218 227"
+"InfoText"="211 218 227"
+"InfoWindow"="56 60 74"
+"Menu"="56 60 74"
+"MenuBar"="82 148 226"
+"MenuHilight"="47 52 63"
+"MenuText"="207 218 231"
+"Scrollbar"="56 60 74"
+"TitleText"="211 218 227"
+"Window"="64 69 82"
+"WindowFrame"="56 60 74"
+"WindowText"="211 218 227"
+EOF
+regedit $progReg
+rm $progReg &>/dev/null
+fi
+
+if [ $CGTK == "Materia-light" ]; then
+cat > $progReg <<'EOF'
+Windows Registry Editor Version 5.00
+
+[HKEY_CURRENT_USER\Control Panel\Colors]
+"ActiveBorder"="242 242 242"
+"ActiveTitle"="242 242 242"
+"AppWorkspace"="242 242 242"
+"Background"="242 242 242"
+"ButtonAlternateFace"="242 242 242"
+"ButtonDkShadow"="242 242 242"
+"ButtonFace"="242 242 242"
+"ButtonHilight"="242 242 242"
+"ButtonLight"="0 0 0"
+"ButtonShadow"="0 0 0"
+"ButtonText"="0 0 0"
+"GradientActiveTitle"="242 242 242"
+"GradientInActiveTitle"="242 242 242"
+"GrayText"="0 0 0"
+"Hilight"="66 133 244"
+"HilightText"="255 255 255"
+"HotTrackingColor"="66 133 244"
+"InActiveBorder"="242 242 242"
+"InActiveTitle"="242 242 242"
+"InActiveTitleText"="0 0 0"
+"InfoText"="0 0 0"
+"InfoWindow"="242 242 242"
+"Menu"="242 242 242"
+"MenuBar"="66 133 244"
+"MenuHilight"="224 224 224"
+"MenuText"="0 0 0"
+"Scrollbar"="242 242 242"
+"TitleText"="0 0 0"
+"Window"="255 255 255"
+"WindowFrame"="242 242 242"
+"WindowText"="0 0 0"
+EOF
+regedit $progReg
+rm $progReg &>/dev/null
+fi
+
+if [ $CGTK == "Materia-dark" ]; then
+cat > $progReg <<'EOF'
+Windows Registry Editor Version 5.00
+
+[HKEY_CURRENT_USER\Control Panel\Colors]
+"ActiveBorder"="40 40 40"
+"ActiveTitle"="40 40 40"
+"AppWorkspace"="40 40 40"
+"Background"="40 40 40"
+"ButtonAlternateFace"="40 40 40"
+"ButtonDkShadow"="40 40 40"
+"ButtonFace"="40 40 40"
+"ButtonHilight"="40 40 40"
+"ButtonLight"="0 0 0"
+"ButtonShadow"="0 0 0"
+"ButtonText"="255 255 255"
+"GradientActiveTitle"="40 40 40"
+"GradientInActiveTitle"="40 40 40"
+"GrayText"="255 255 255"
+"Hilight"="66 133 244"
+"HilightText"="255 255 255"
+"HotTrackingColor"="66 133 244"
+"InActiveBorder"="40 40 40"
+"InActiveTitle"="40 40 40"
+"InActiveTitleText"="255 255 255"
+"InfoText"="255 255 255"
+"InfoWindow"="40 40 40"
+"Menu"="40 40 40"
+"MenuBar"="66 133 244"
+"MenuHilight"="56 56 56"
+"MenuText"="255 255 255"
+"Scrollbar"="40 40 40"
+"TitleText"="255 255 255"
+"Window"="48 48 48"
+"WindowFrame"="40 40 40"
+"WindowText"="255 255 255"
+EOF
+regedit $progReg
+rm $progReg &>/dev/null
+fi
 else
 cat > $progReg <<'EOF'
 Windows Registry Editor Version 5.00
