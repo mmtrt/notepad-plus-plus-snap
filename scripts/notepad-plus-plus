@@ -33,7 +33,7 @@ export LOCPATH="$SNAP/usr/lib/locale"
 CCD=$(env | grep '^XDG_CURRENT_DESKTOP=' | awk -F'=' '{print $2}')
 
 # Check gtk3 theme on kde
-CGTK=$(grep '^gtk-theme-name=' $REALHOME/.config/gtk-3.0/settings.ini | awk -F'=' '{print $2}')
+CGTK=$(grep '^gtk-theme-name=' $REALHOME/.config/gtk-3.0/settings.ini 2>/dev/null | awk -F'=' '{print $2}')
 
 # notepad-plus-plus env
 progName=notepad-plus-plus
