@@ -13,14 +13,10 @@ dlnpp () {
     ver=$(wget https://notepad-plus-plus.org/download -q -S -O - 2>&1 | grep 'Version</t' | cut -c19-24 | sed 's| -||' | sed 's/ //g')
     repover=$(echo $ver | cut -c01-1)
     wget https://notepad-plus-plus.org/repository/$repover.x/$ver/npp.$ver.bin.7z &> /dev/null
-    for fnts in andalemo.ttf arialbd.ttf arialbi.ttf ariali.ttf arial.ttf ariblk.ttf comicbd.ttf comic.ttf courbd.ttf courbi.ttf couri.ttf cour.ttf georgiab.ttf georgiai.ttf georgia.ttf georgiaz.ttf impact.ttf l_10646.ttf lucon.ttf micross.ttf symbol.ttf tahomabd.ttf tahoma.ttf timesbd.ttf timesbi.ttf timesi.ttf times.ttf trebucbd.ttf trebucbi.ttf trebucit.ttf trebuc.ttf verdanab.ttf verdanai.ttf verdana.ttf verdanaz.ttf webdings.ttf wingding.ttf
-    do
-    wget https://github.com/caarlos0-graveyard/msfonts/blob/master/fonts/$fnts?raw=true -P share/wine/fonts &> /dev/null
-    mv share/wine/fonts/$fnts?raw=true share/wine/fonts/$fnts
-    done
 }
 
 mknpp () {
+    mkdir -p usr/share && mkdir wine-platform
     7z x "npp.$ver.bin.7z" -x'!change.log' -x'!license.txt' -x'!readme.txt' -x'!updater' -o"usr/share/notepad-plus-plus" &> /dev/null
     mv usr/share/notepad-plus-plus/notepad++.exe usr/share/notepad-plus-plus/notepad-plus-plus.exe
     find "usr" -type d -execdir chmod 755 {} +
@@ -50,4 +46,4 @@ sed -i -e 's|Version=|Version='"$ver"'|g' notepad-plus-plus.desktop
 dlnpp
 mknpp
 mkdsk
-mv notepad-plus-plus bin && mv notepad-plus-plus.desktop usr/share/applications && cp -R -p {bin,usr,share} $SNAPCRAFT_PART_INSTALL
+mv notepad-plus-plus bin && mv notepad-plus-plus.desktop usr/share/applications && cp -R -p {bin,usr,wine-platform} $SNAPCRAFT_PART_INSTALL
