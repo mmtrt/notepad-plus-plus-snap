@@ -187,6 +187,7 @@ if [ -f $REALHOME/.config/fontconfig/fonts.conf ]; then
 else
   make_user_fontconfig > $XDG_CONFIG_HOME/fontconfig/fonts.conf
 fi
+fi
 
 # Gdk-pixbuf loaders
 export GDK_PIXBUF_MODULE_FILE=$XDG_CACHE_HOME/gdk-pixbuf-loaders.cache
