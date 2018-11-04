@@ -234,6 +234,13 @@ mkdir -p $progHome/plugins/Config/Hunspell
 touch $progHome/plugins/Config/Hunspell/en_US.usr
 fi
 
+# remove win32 wineprefix to create new win64 one
+if [ "$SNAP_ARCH" = "amd64" ]; then
+ if [ ! -d $WINEPREFIX/drive_c/windows/syswow64 ]; then
+    rm -r $WINEPREFIX
+ fi
+fi
+
 if [ ! -d $WINEPREFIX ]; then
 # link ttf & ttc fonts from root to wineprefix
 mkdir -p $WINEPREFIX/drive_c/windows/Fonts
