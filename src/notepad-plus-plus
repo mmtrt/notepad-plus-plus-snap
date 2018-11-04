@@ -227,6 +227,11 @@ find "$progHome/" -type l -delete &>/dev/null
 # Update existing symlinks, add new symlinks
 cp -urs "$progRealPath/"* "$progHome" &>/dev/null
 
+if [ ! -f $progHome\plugins\Config\Hunspell\en_US.usr ]; then
+mkdir -p $progHome\plugins\Config\Hunspell
+touch $progHome\plugins\Config\Hunspell\en_US.usr
+fi
+
 if [ ! -d $WINEPREFIX ]; then
 # link ttf & ttc fonts from root to wineprefix
 mkdir -p $WINEPREFIX/drive_c/windows/Fonts
