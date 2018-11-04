@@ -12,12 +12,21 @@
 dlnpp () {
     ver=$(wget https://notepad-plus-plus.org/download -q -S -O - 2>&1 | grep 'Version</t' | cut -c19-24 | sed 's| -||' | sed 's/ //g')
     repover=$(echo $ver | cut -c01-1)
-    wget https://notepad-plus-plus.org/repository/$repover.x/$ver/npp.$ver.bin.7z &> /dev/null
+    ARCHITECTURE=$(dpkg --print-architecture)
+    if [ "${ARCHITECTURE}" = "amd64" ]; then
+     wget https://notepad-plus-plus.org/repository/$repover.x/$ver/npp.$ver.bin.x64.7z &> /dev/null
+     7z x "npp.$ver.bin.x64.7z" -x'!change.log' -x'!license.txt' -x'!readme.txt' -x'!updater' -o"usr/share/notepad-plus-plus" &> /dev/null
+    elif [ "${ARCHITECTURE}" = "i386" ]; then
+     wget https://notepad-plus-plus.org/repository/$repover.x/$ver/npp.$ver.bin.7z &> /dev/null
+     7z x "npp.$ver.bin.7z" -x'!change.log' -x'!license.txt' -x'!readme.txt' -x'!updater' -o"usr/share/notepad-plus-plus" &> /dev/null
+    else
+     echo "ERROR! notepad-plus-plus only produces software for amd64 and i386. Failing the build here."
+     exit 1
+    fi
 }
 
 mknpp () {
     mkdir -p usr/share && mkdir wine-platform
-    7z x "npp.$ver.bin.7z" -x'!change.log' -x'!license.txt' -x'!readme.txt' -x'!updater' -o"usr/share/notepad-plus-plus" &> /dev/null
     mv usr/share/notepad-plus-plus/notepad++.exe usr/share/notepad-plus-plus/notepad-plus-plus.exe
     find "usr" -type d -execdir chmod 755 {} +
     mkdir -p usr/share/pixmaps && mkdir -p usr/share/applications && mkdir bin

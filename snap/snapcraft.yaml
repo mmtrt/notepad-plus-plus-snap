@@ -9,14 +9,14 @@ confinement: strict
 grade: stable
 architectures:
   - build-on: amd64
-    run-on: [amd64, i386]
+  - build-on: i386
 
 plugs:
   wine-platform-plug:
     content: wine-base-stable
     interface: content
     target: $SNAP/wine-platform
-    default-provider: wine-platform-i386
+    default-provider: wine-platform
 
 apps:
   notepad-plus-plus:
