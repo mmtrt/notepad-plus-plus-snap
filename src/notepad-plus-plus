@@ -237,7 +237,7 @@ fi
 # remove win32 wineprefix to create new win64 one
 if [ "$SNAP_ARCH" = "amd64" ]; then
  if [ ! -d $WINEPREFIX/drive_c/windows/syswow64 ]; then
-    rm -r $WINEPREFIX
+    rm -r $WINEPREFIX 2>/dev/null
  fi
 fi
 
