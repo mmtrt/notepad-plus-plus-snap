@@ -58,7 +58,7 @@ mknpp () {
 #     ;cp -R $appdir/'$_14_'/* "winedata/AppData/Local/Notepad++"
     find $appdir/'$PLUGINSDIR' -type f -name '*.xml' -print0 | while read -d $'\0' file; do cp -v "$file" $appdir/localization/ &>/dev/null; done
     rm -R $appdir/'$_13_';rm -R $appdir/'$_14_';rm -R $appdir/'$_15_';rm -R $appdir/'$PLUGINSDIR';
-    find "usr" -type d -execdir chmod 755 {} +
+    find "usr" -type d -execdir chmod 755 {} + && find "winedata" -type d -execdir chmod 755 "{}" +
 }
 
 mkdsk () {
