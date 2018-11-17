@@ -226,7 +226,6 @@ fi
 
 # move old files to backup if npp is <7.6
 if [ -d $progHome/plugins/Config ]; then
-rm -r $REALHOME/snap/$progName/current/$progName
 mkdir -p $progHome/backup
 find $progHome/ -maxdepth 1 ! -name backup ! -name $progName -exec cp -rv {} $progHome/backup &>/dev/null \;
 find $progHome/ -maxdepth 1 ! -name backup ! -name $progName -exec rm -rv {} &>/dev/null \;
