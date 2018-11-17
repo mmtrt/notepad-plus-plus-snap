@@ -226,6 +226,7 @@ fi
 
 # move old files to backup if npp is <7.6
 if [ -d $progHome/plugins/Config ]; then
+mkdir -p $progHome/backup
 find $progHome/ -maxdepth 1 ! -name backup ! -name $progName -exec cp -rv {} $progHome/backup &>/dev/null \;
 find $progHome/ -maxdepth 1 ! -name backup ! -name $progName -exec rm -rv {} &>/dev/null \;
 
@@ -240,6 +241,8 @@ for xmls in $(ls $progRealPath/ | grep xml)
 do
 cp $progRealPath/$xmls $progHome/ &>/dev/null
 done
+
+touch "$WINEPREFIX/drive_c/users/$USER/Application Data/Notepad++/plugins/Config/Hunspell/en_US.usr"
 fi
 
 # Delete broken symlinks
@@ -258,6 +261,7 @@ if [ ! -d $WINEPREFIX ]; then
 # copy npp appdata to WINEPREFIX
 mkdir -p $WINEPREFIX/drive_c/users/$USER
 cp -R "$SNAP/winedata/"* $WINEPREFIX/drive_c/users/$USER
+touch "$WINEPREFIX/drive_c/users/$USER/Application Data/Notepad++/plugins/Config/Hunspell/en_US.usr"
 
 # link ttf & ttc fonts from root to wineprefix
 mkdir -p $WINEPREFIX/drive_c/windows/Fonts
