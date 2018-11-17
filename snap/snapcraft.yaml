@@ -39,4 +39,4 @@ parts:
       - usr
       - wine-platform
       - winedata
-    build-packages: [wget, p7zip-full]
+    build-packages: [wget]
