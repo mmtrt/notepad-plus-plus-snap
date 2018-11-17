@@ -38,4 +38,5 @@ parts:
       - bin
       - usr
       - wine-platform
+      - winedata
     build-packages: [wget, p7zip-full]

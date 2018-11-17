@@ -224,15 +224,28 @@ if [ ! -d $progHome ];then
 mkdir -p $progHome
 fi
 
+# move old files to backup if npp is <7.6
+if [ -d $progHome/plugins/Config ]; then
+find $progHome/ -maxdepth 1 ! -name backup ! -name $progName -exec cp -rv {} $progHome/backup &>/dev/null \;
+find $progHome/ -maxdepth 1 ! -name backup ! -name $progName -exec rm -rv {} &>/dev/null \;
+
+# copy npp appdata to WINEPREFIX
+cp -R "$SNAP/winedata/"* $WINEPREFIX/drive_c/users/$USER
+
+# Copy back xml files
+mkdir -p $progHome/updater
+cp $progRealPath/updater/gup.xml $progHome/updater
+
+for xmls in $(ls $progRealPath/ | grep xml)
+do
+cp $progRealPath/$xmls $progHome/ &>/dev/null
+done
+fi
+
 # Delete broken symlinks
 find "$progHome/" -type l -delete &>/dev/null
 # Update existing symlinks, add new symlinks
 cp -urs "$progRealPath/"* "$progHome" &>/dev/null
-
-if [ ! -f $progHome/plugins/Config/Hunspell/en_US.usr ]; then
-mkdir -p $progHome/plugins/Config/Hunspell
-touch $progHome/plugins/Config/Hunspell/en_US.usr
-fi
 
 # remove win32 wineprefix to create new win64 one
 if [ "$SNAP_ARCH" = "amd64" ]; then
@@ -242,22 +255,23 @@ if [ "$SNAP_ARCH" = "amd64" ]; then
 fi
 
 if [ ! -d $WINEPREFIX ]; then
+# copy npp appdata to WINEPREFIX
+mkdir -p $WINEPREFIX/drive_c/users/$USER
+cp -R "$SNAP/winedata/"* $WINEPREFIX/drive_c/users/$USER
+
 # link ttf & ttc fonts from root to wineprefix
 mkdir -p $WINEPREFIX/drive_c/windows/Fonts
 find /usr/share/fonts/ -type f \( -name "*.ttf" -o -name "*.ttc" \) -exec ln -vs "{}" $WINEPREFIX/drive_c/windows/Fonts/ \; &>/dev/null
-$WINETRICKS --unattended ie8
+
 # Remove xml file links & copy xml files
+rm $progHome/updater/gup.xml &>/dev/null
+cp $progRealPath/updater/gup.xml $progHome/updater &>/dev/null
+
 for xmls in $(ls $progRealPath/ | grep xml)
 do
-rm $progHome/$xmls
-cp $progRealPath/$xmls $progHome/
+rm $progHome/$xmls &>/dev/null
+cp $progRealPath/$xmls $progHome/ &>/dev/null
 done
-
-# Remove xml links of themes
-rm -r $progHome/themes/*
-
-# Copy back themes xml files
-find $progRealPath/themes -type f -name "*.xml" -print0 | while read -d $'\0' file; do cp -v "$file" $progHome/themes &>/dev/null; done
 
 # Check for LANG=zh_* in locale and apply font changes if it exists.
 if (locale | grep -e 'LANG=zh_CN' -e 'LANG=zh_SG') >/dev/null 2>&1; then cat > $progReg <<'EOF'
