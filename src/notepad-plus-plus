@@ -235,7 +235,8 @@ find $progHome/ -maxdepth 1 ! -name backup ! -name $progName -exec cp -rv {} $pr
 find $progHome/ -maxdepth 1 ! -name backup ! -name $progName -exec rm -rv {} &>/dev/null \;
 
 # copy npp appdata to WINEPREFIX
-cp -R "$SNAP/winedata/"* $WINEPREFIX/drive_c/users/$USER
+cp -R "$SNAP/winedata/Application Data" $WINEPREFIX/drive_c/users/$USER
+cp -R "$SNAP/winedata/ProgramData" $WINEPREFIX/drive_c
 
 # Copy back xml files
 mkdir -p $progHome/updater
@@ -254,17 +255,22 @@ find "$progHome/" -type l -delete &>/dev/null
 # Update existing symlinks, add new symlinks
 cp -urs "$progRealPath/"* "$progHome" &>/dev/null
 
-# remove win32 wineprefix to create new win64 one
-if [ "$SNAP_ARCH" = "amd64" ]; then
- if [ ! -d $WINEPREFIX/drive_c/windows/syswow64 ]; then
-    rm -r $WINEPREFIX 2>/dev/null
- fi
+# workaround fixes for 6.7.1
+if [ -d $WINEPREFIX ]; then
+if [ -f "$WINEPREFIX/drive_c/users/$USER/Application Data/Notepad++/plugins/Config/nppPluginList.dll" ]; then
+rm "$WINEPREFIX/drive_c/users/$USER/Application Data/Notepad++/plugins/Config/nppPluginList.dll"
+fi
+
+if [ ! -d "$WINEPREFIX/drive_c/ProgramData/Notepad++" ]; then
+cp -R "$SNAP/winedata/ProgramData" $WINEPREFIX/drive_c
+fi
 fi
 
 if [ ! -d $WINEPREFIX ]; then
 # copy npp appdata to WINEPREFIX
 mkdir -p $WINEPREFIX/drive_c/users/$USER
-cp -R "$SNAP/winedata/"* $WINEPREFIX/drive_c/users/$USER
+cp -R "$SNAP/winedata/Application Data" $WINEPREFIX/drive_c/users/$USER
+cp -R "$SNAP/winedata/ProgramData" $WINEPREFIX/drive_c
 touch "$WINEPREFIX/drive_c/users/$USER/Application Data/Notepad++/plugins/Config/Hunspell/en_US.usr"
 
 # link ttf & ttc fonts from root to wineprefix
