@@ -232,49 +232,15 @@ if [ ! -d $progHome ];then
 mkdir -p $progHome
 fi
 
-# move old files to backup if npp is <7.6
-if [ -d $progHome/plugins/Config ]; then
-mkdir -p $progHome/backup
-find $progHome/ -maxdepth 1 ! -name backup ! -name $progName -exec cp -rv {} $progHome/backup &>/dev/null \;
-find $progHome/ -maxdepth 1 ! -name backup ! -name $progName -exec rm -rv {} &>/dev/null \;
-
-# copy npp appdata to WINEPREFIX
-cp -R "$SNAP/winedata/Application Data" $WINEPREFIX/drive_c/users/$USER
-cp -R "$SNAP/winedata/ProgramData" $WINEPREFIX/drive_c
-
-# Copy back xml files
-mkdir -p $progHome/updater
-cp $progRealPath/updater/gup.xml $progHome/updater
-
-for xmls in $(ls $progRealPath/ | grep xml)
-do
-cp $progRealPath/$xmls $progHome/ &>/dev/null
-done
-
-touch "$WINEPREFIX/drive_c/users/$USER/Application Data/Notepad++/plugins/Config/Hunspell/en_US.usr"
-fi
-
 # Delete broken symlinks
 find "$progHome/" -type l -delete &>/dev/null
 # Update existing symlinks, add new symlinks
 cp -urs "$progRealPath/"* "$progHome" &>/dev/null
 
-# workaround fixes for 6.7.1
-if [ -d $WINEPREFIX ]; then
-if [ -f "$WINEPREFIX/drive_c/users/$USER/Application Data/Notepad++/plugins/Config/nppPluginList.dll" ]; then
-rm "$WINEPREFIX/drive_c/users/$USER/Application Data/Notepad++/plugins/Config/nppPluginList.dll"
-fi
-
-if [ ! -d "$WINEPREFIX/drive_c/ProgramData/Notepad++" ]; then
-cp -R "$SNAP/winedata/ProgramData" $WINEPREFIX/drive_c
-fi
-fi
-
 if [ ! -d $WINEPREFIX ]; then
 # copy npp appdata to WINEPREFIX
 mkdir -p $WINEPREFIX/drive_c/users/$USER
 cp -R "$SNAP/winedata/Application Data" $WINEPREFIX/drive_c/users/$USER
-cp -R "$SNAP/winedata/ProgramData" $WINEPREFIX/drive_c
 touch "$WINEPREFIX/drive_c/users/$USER/Application Data/Notepad++/plugins/Config/Hunspell/en_US.usr"
 
 # link ttf & ttc fonts from root to wineprefix
