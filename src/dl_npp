@@ -51,9 +51,9 @@ dli7z16 () {
 
 mknpp () {
     appdir="usr/share/notepad-plus-plus"
-    mkdir ./{wine-platform,bin} && mkdir -p usr/share/{pixmaps,applications} && mkdir -p "winedata/Application Data/Notepad++" && mkdir -p "winedata/ProgramData/Notepad++/plugins/Config"
+    mkdir ./{wine-platform,bin} && mkdir -p usr/share/{pixmaps,applications} && mkdir -p "winedata/Application Data/Notepad++" && mkdir -p "usr/share/notepad-plus-plus/plugins/Config"
     mv $appdir/notepad++.exe $appdir/notepad-plus-plus.exe
-    cp -R $appdir/'$_13_'/* "winedata/Application Data/Notepad++";cp -R $appdir/'$_15_'/* "winedata/Application Data/Notepad++/plugins/Config";cp -R $appdir/'$_14_'/* "winedata/ProgramData/Notepad++/plugins";cp -R $appdir/'$_16_'/* "winedata/ProgramData/Notepad++/plugins/Config"
+    cp -R $appdir/'$_13_'/* "winedata/Application Data/Notepad++";cp -R $appdir/'$_15_'/* "winedata/Application Data/Notepad++/plugins/Config";cp -R $appdir/'$_14_'/* "usr/share/notepad-plus-plus/plugins";cp -R $appdir/'$_16_'/* "usr/share/notepad-plus-plus/plugins/Config"
     find $appdir/'$PLUGINSDIR' -type f -name '*.xml' -print0 | while read -d $'\0' file; do cp -v "$file" $appdir/localization/ &>/dev/null; done
     rm -R $appdir/'$_13_';rm -R $appdir/'$_14_';rm -R $appdir/'$_15_';rm -R $appdir/'$_16_';rm -R $appdir/'$PLUGINSDIR';
     find "usr" -type d -execdir chmod 755 {} + && find "winedata" -type d -execdir chmod 755 "{}" +
