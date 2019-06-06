@@ -51,7 +51,7 @@ dli7z16 () {
 
 mknpp () {
     appdir="usr/share/notepad-plus-plus"
-    mkdir ./{wine-platform,bin} && mkdir -p usr/share/{pixmaps,applications} && mkdir -p "winedata/Application Data/Notepad++" && mkdir -p "usr/share/notepad-plus-plus/plugins/Config"
+    mkdir ./{wine-runtime,wine-platform,bin} && mkdir -p usr/share/{pixmaps,applications} && mkdir -p "winedata/Application Data/Notepad++" && mkdir -p "usr/share/notepad-plus-plus/plugins/Config"
     mv $appdir/notepad++.exe $appdir/notepad-plus-plus.exe
     cp -R $appdir/'$_14_'/* "winedata/Application Data/Notepad++";cp -R $appdir/'$_15_'/* "usr/share/notepad-plus-plus/plugins";cp -R $appdir/'$_17_'/* "usr/share/notepad-plus-plus/plugins/Config"
     find $appdir/'$PLUGINSDIR' -type f -name '*.xml' -print0 | while read -d $'\0' file; do cp -v "$file" $appdir/localization/ &>/dev/null; done
@@ -82,4 +82,4 @@ dli7z16
 dlnpp
 mknpp
 mkdsk
-mv notepad-plus-plus bin && mv notepad-plus-plus.desktop usr/share/applications && mv notepad-plus-plus.png usr/share/pixmaps && cp -R -p {bin,usr,wine-platform,winedata} $SNAPCRAFT_PART_INSTALL
+mv notepad-plus-plus bin && mv notepad-plus-plus.desktop usr/share/applications && mv notepad-plus-plus.png usr/share/pixmaps && cp -R -p {bin,usr,wine-runtime,wine-platform,winedata} $SNAPCRAFT_PART_INSTALL

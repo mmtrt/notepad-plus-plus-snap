@@ -13,11 +13,14 @@ architectures:
 base: core18
 
 plugs:
-  wine-platform-plug:
-    content: wine-base-stable
+  wine-runtime:
+    interface: content
+    target: $SNAP/wine-runtime
+    default-provider: wine-platform-runtime
+  wine-3-stable:
     interface: content
     target: $SNAP/wine-platform
-    default-provider: wine-platform
+    default-provider: wine-platform-3-stable
   icon-themes:
     interface: content
     target: $SNAP/data-dir/icons
@@ -27,12 +30,12 @@ apps:
   notepad-plus-plus:
     command: notepad-plus-plus
     desktop: usr/share/applications/notepad-plus-plus.desktop
-    plugs: [ wayland, x11, opengl, home, desktop, desktop-legacy, network, hardware-observe, process-control, cups-control, removable-media, wine-platform-plug ]
+    plugs: [ wayland, x11, opengl, home, desktop, desktop-legacy, network, hardware-observe, process-control, cups-control, removable-media, icon-themes, wine-runtime, wine-3-stable ]
 
 parts:
   notepad-plus-plus:
     plugin: nil
-    source: ./src
+    source: ./snap/local/src
     override-build: |
       snapcraftctl build
       set -ex
@@ -43,5 +46,6 @@ parts:
       - bin
       - usr
       - wine-platform
+      - wine-runtime
       - winedata
     build-packages: [wget]
