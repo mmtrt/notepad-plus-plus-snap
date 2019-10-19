@@ -10,7 +10,7 @@
 #
 
 dlnpp () {
-    ver=$(wget https://notepad-plus-plus.org/download -q -S -O - 2>&1 | grep 'Version</t' | cut -c19-24 | sed 's| -||' | sed 's/ //g')
+    ver=$(wget https://notepad-plus-plus.org/download -qO - 2>&1 | grep Current | sed 's|</| |' | awk '{print $4}')
     repover=$(echo $ver | cut -c01-1)
     if [ "${ARCHITECTURE}" = "amd64" ]; then
      wget https://notepad-plus-plus.org/repository/$repover.x/$ver/npp.$ver.Installer.x64.exe &> /dev/null

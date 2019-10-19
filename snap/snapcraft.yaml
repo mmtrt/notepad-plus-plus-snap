@@ -39,7 +39,7 @@ parts:
     override-build: |
       snapcraftctl build
       set -ex
-      ver=$(wget https://notepad-plus-plus.org/download -q -S -O - 2>&1 | grep 'Version</t' | cut -c19-24 | sed 's| -||' | sed 's/ //g')
+      ver=$(wget https://notepad-plus-plus.org/download -qO - 2>&1 | grep Current | sed 's|</| |' | awk '{print $4}')
       echo $ver > $SNAPCRAFT_STAGE/version
       ./dl_npp
     stage:
