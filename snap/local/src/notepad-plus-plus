@@ -395,6 +395,8 @@ done
 
 if [ "$1" == "winecfg" ] ; then
   wine winecfg
+elif [ "$1" == "regedit" ] ; then
+  wine regedit
 elif [ -z "$1" ] ; then
   wine "$progHome/$progBin"
 else
