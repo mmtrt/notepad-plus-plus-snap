@@ -327,7 +327,6 @@ if [ ! -d $WINEPREFIX ]; then
 # copy npp appdata to WINEPREFIX
 ensure_dir_exists $WINEPREFIX/drive_c/users/$USER
 cp -R "$SNAP/winedata/Application Data" $WINEPREFIX/drive_c/users/$USER
-touch "$WINEPREFIX/drive_c/users/$USER/Application Data/Notepad++/plugins/Config/Hunspell/en_US.usr"
 
 # link ttf & ttc fonts from root to wineprefix
 ensure_dir_exists $WINEPREFIX/drive_c/windows/Fonts
