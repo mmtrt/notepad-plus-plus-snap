@@ -39,6 +39,7 @@ parts:
       snapcraftctl build
       set -ex
       ver=$(wget https://api.github.com/repos/notepad-plus-plus/notepad-plus-plus/releases -qO - 2>&1 | grep tag_name | cut -d'"' -f4 | sed s'/v//' | head -n1)
+      snapcraftctl set-version "$ver"
       ./dl_npp
     stage:
       - bin
