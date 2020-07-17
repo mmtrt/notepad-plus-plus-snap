@@ -11,12 +11,11 @@
 
 dlnpp () {
     ver=$(wget https://api.github.com/repos/notepad-plus-plus/notepad-plus-plus/releases -qO - 2>&1 | grep tag_name | cut -d'"' -f4 | sed s'/v//' | head -n1)
-    repover=$(echo $ver | cut -c01-1)
     if [ "${ARCHITECTURE}" = "amd64" ]; then
-     wget http://download.notepad-plus-plus.org/repository/$repover.x/$ver/npp.$ver.Installer.x64.exe &> /dev/null
+     wget https://github.com/notepad-plus-plus/notepad-plus-plus/releases/download/v${ver}/npp.${ver}.Installer.x64.exe &> /dev/null
      7z x -aos "npp.$ver.Installer.x64.exe" -x'!change.log' -x'!doLocalConf.xml' -x'!LICENSE' -x'!NppShell_06.dll' -x'!readme.txt' -x'!userDefinedLang-markdown.default.modern.xml' -o"usr/share/notepad-plus-plus"
     elif [ "${ARCHITECTURE}" = "i386" ]; then
-     wget http://download.notepad-plus-plus.org/repository/$repover.x/$ver/npp.$ver.Installer.exe &> /dev/null
+     wget https://github.com/notepad-plus-plus/notepad-plus-plus/releases/download/v${ver}/npp.${ver}.Installer.exe &> /dev/null
      7z x -aos "npp.$ver.Installer.exe" -x'!change.log' -x'!doLocalConf.xml' -x'!LICENSE' -x'!NppShell_06.dll' -x'!readme.txt' -x'!userDefinedLang-markdown.default.modern.xml' -o"usr/share/notepad-plus-plus"
     else
      echo "ERROR! notepad-plus-plus only produces software for amd64 and i386. Failing the build here."
