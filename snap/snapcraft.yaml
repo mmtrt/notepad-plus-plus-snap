@@ -93,5 +93,8 @@ parts:
     after: [gnome-3-28-extension]
     plugin: nil
     override-build: |
-      mkdir -p $SNAPCRAFT_PART_INSTALL/lib/x86_64-linux-gnu
-      mv ../../gnome-3-28-extension/install/lib/*.so $SNAPCRAFT_PART_INSTALL/lib/x86_64-linux-gnu
+      ARCHITECTURE=$(dpkg --print-architecture)
+      if [ "${ARCHITECTURE}" = "amd64" ]; then
+        mkdir -p $SNAPCRAFT_PART_INSTALL/lib/x86_64-linux-gnu
+        mv ../../gnome-3-28-extension/install/lib/*.so $SNAPCRAFT_PART_INSTALL/lib/x86_64-linux-gnu
+      fi
