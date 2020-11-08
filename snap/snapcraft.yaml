@@ -88,3 +88,11 @@ parts:
     plugin: make
     source: https://github.com/snapcrafters/sommelier-core.git
     source-branch: "1.0"
+
+  fixup-lib:
+    after: gnome-3-28-extension
+    plugin: nil
+    override-build: |
+      mkdir -p /build/notepad-plus-plus/parts/gnome-3-28-extension/install/lib/x86_64-linux-gnu
+      mv /build/notepad-plus-plus/parts/gnome-3-28-extension/install/lib/*.so /build/notepad-plus-plus/parts/gnome-3-28-extension/install/lib/x86_64-linux-gnu
+      ls -al /build/notepad-plus-plus/parts/gnome-3-28-extension/install/lib/x86_64-linux-gnu
