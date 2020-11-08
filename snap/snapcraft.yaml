@@ -93,5 +93,5 @@ parts:
     after: [gnome-3-28-extension]
     plugin: nil
     override-build: |
-      mkdir -p /build/notepad-plus-plus/stage/lib/x86_64-linux-gnu
-      mv /build/notepad-plus-plus/parts/gnome-3-28-extension/install/lib/*.so /build/notepad-plus-plus/stage/lib/x86_64-linux-gnu
+      mkdir -p $SNAPCRAFT_PART_INSTALL/lib/x86_64-linux-gnu
+      mv ../../gnome-3-28-extension/install/lib/*.so $SNAPCRAFT_PART_INSTALL/lib/x86_64-linux-gnu
