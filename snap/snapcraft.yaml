@@ -1,8 +1,9 @@
 name: notepad-plus-plus
-adopt-info: notepad-plus-plus
+title: Notepad++ (Wine)
 summary: notepad-plus-plus is a free source code editor.
 description: |
  Based on the powerful editing component Scintilla, notepad-plus-plus is written in C++ and uses pure Win32 API and STL which ensures a higher execution speed and smaller program size. By optimizing as many routines as possible without losing user friendliness, notepad-plus-plus is trying to reduce the world carbon dioxide emissions. When using less CPU power, the PC can throttle down and reduce power consumption, resulting in a greener environment.
+adopt-info: notepad-plus-plus
 
 confinement: strict
 grade: stable
@@ -20,16 +21,48 @@ plugs:
     interface: content
     target: $SNAP/wine-platform
     default-provider: wine-platform-5-stable
-  icon-themes:
-    interface: content
-    target: $SNAP/data-dir/icons
-    default-provider: gtk-common-themes
+
+environment:
+  WINEDLLOVERRIDES: "mscoree,mshtml="         # Prevent pop-ups about Wine Mono and Wine Gecko
 
 apps:
   notepad-plus-plus:
-    command: notepad-plus-plus
+    extensions: [ gnome-3-28 ]
+    command: bin/sommelier run-exe
+    environment:
+      RUN_EXE: "$SNAP_USER_DATA/notepad-plus-plus/notepad-plus-plus.exe"
+      SOMMELIER_KEEP_CWD: 1  # Don't change the working directory so relative paths still work
+    plugs: 
+      - opengl
+      - home
+      - network
+      - hardware-observe
+      - process-control
+      - cups-control
+      - removable-media
     desktop: usr/share/applications/notepad-plus-plus.desktop
-    plugs: [ wayland, x11, opengl, home, desktop, desktop-legacy, network, hardware-observe, process-control, cups-control, removable-media, icon-themes, wine-runtime, wine-5-stable ]
+  # The wine command can be used to run applications inside the wine
+  # environment that this snap uses.
+  #
+  # For example, users can configure the wine environment of this snap
+  # by running `myapp.wine winecfg`.
+  wine:
+    extensions: [ gnome-3-28 ]
+    command: bin/sommelier
+    plugs:
+      - home
+      - network
+      - hardware-observe
+      - process-control
+      - cups-control
+      - removable-media      
+  # The winetricks command can be used to run winetricks inside the wine
+  # environment that this snap uses.
+  winetricks:
+    extensions: [ gnome-3-28 ]
+    command: bin/sommelier winetricks
+    plugs:
+      - network
 
 parts:
   notepad-plus-plus:
@@ -47,4 +80,11 @@ parts:
       - wine-platform
       - wine-runtime
       - winedata
+      - sommelier
     build-packages: [wget]
+  # The sommelier script helps you snap Windows applications using Wine. It 
+  # initializes and configures Wine and installs the Windows application.
+  sommelier:
+    plugin: make
+    source: https://github.com/snapcrafters/sommelier-core.git
+    source-branch: "1.0"
