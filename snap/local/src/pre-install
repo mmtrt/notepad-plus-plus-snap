@@ -1,0 +1,27 @@
+#!/bin/bash
+
+progName=notepad-plus-plus
+progRealPath=$SNAP/usr/share/$progName
+progHome=$SNAP_USER_DATA/$progName
+
+if [ ! -d $progHome ];then
+  ensure_dir_exists $progHome
+fi
+
+# Delete broken symlinks
+find "$progHome/" -type l -delete &>/dev/null
+# Update existing symlinks, add new symlinks
+cp -urs "$progRealPath/"* "$progHome" &>/dev/null
+
+# copy npp appdata to WINEPREFIX
+ensure_dir_exists $WINEPREFIX/drive_c/users/$USER
+cp -R "$SNAP/winedata/Application Data" $WINEPREFIX/drive_c/users/$USER
+
+# Remove xml file links & copy xml files
+rm $progHome/updater/gup.xml &>/dev/null
+cp $progRealPath/updater/gup.xml $progHome/updater &>/dev/null
+
+for xmls in $(ls $progRealPath/ | grep xml); do
+    rm $progHome/$xmls &>/dev/null
+    cp $progRealPath/$xmls $progHome/ &>/dev/null
+done
