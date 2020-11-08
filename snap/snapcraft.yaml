@@ -90,7 +90,7 @@ parts:
     source-branch: "1.0"
 
   fixup-lib:
-    after: gnome-3-28-extension
+    after: [gnome-3-28-extension]
     plugin: nil
     override-build: |
       mkdir -p /build/notepad-plus-plus/parts/gnome-3-28-extension/install/lib/x86_64-linux-gnu
