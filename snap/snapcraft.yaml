@@ -95,4 +95,4 @@ parts:
     override-build: |
       mkdir -p /build/notepad-plus-plus/parts/gnome-3-28-extension/install/lib/x86_64-linux-gnu
       mv /build/notepad-plus-plus/parts/gnome-3-28-extension/install/lib/*.so /build/notepad-plus-plus/parts/gnome-3-28-extension/install/lib/x86_64-linux-gnu
-      ls -al /build/notepad-plus-plus/parts/gnome-3-28-extension/install/lib/x86_64-linux-gnu
+      mkdir -p /build/notepad-plus-plus/stage/lib/x86_64-linux-gnu
