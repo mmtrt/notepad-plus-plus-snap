@@ -11,6 +11,7 @@ architectures:
   - build-on: amd64
   - build-on: i386
 base: core18
+compression: lzo
 
 plugs:
   wine-runtime:
