@@ -87,5 +87,5 @@ parts:
   # initializes and configures Wine and installs the Windows application.
   sommelier:
     plugin: make
-    source: https://github.com/galgalesh/sommelier-core.git
-    source-branch: "wine-light-theme"
+    source: https://github.com/snapcrafters/sommelier-core.git
+    source-branch: "1.0"
