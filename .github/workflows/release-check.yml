@@ -1,0 +1,26 @@
+name: check
+
+on:
+  schedule:
+  - cron: "0 * * * *"
+
+jobs:
+  new-release:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: get-latest-version
+      run: |
+        VERSION="$(wget 2>/dev/null https://api.github.com/repos/notepad-plus-plus/notepad-plus-plus/releases -qSO- | grep "Notepad++ " | sed s'|"| |g' | awk '{print $5}' | head -n1)"
+        last=$(tail -n1 .build | awk '{print $4}')
+
+        if [ "$last" != "$VERSION" ]; then
+          echo "$(date -u --rfc-3339=seconds) Version $VERSION" >> .build
+        fi
+    - uses: stefanzweifel/git-auto-commit-action@v4
+      with:
+        commit_message: Trigger build for new version
+        branch: master
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
