@@ -2,7 +2,7 @@ name: check
 
 on:
   schedule:
-  - cron: "0 * * * *"
+  - cron: "0 */12 * * *"
 
 jobs:
   new-release:
@@ -10,6 +10,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+      with:
+        token: ${{ secrets.PAT }}
     - name: get-latest-version
       run: |
         VERSION="$(wget 2>/dev/null https://api.github.com/repos/notepad-plus-plus/notepad-plus-plus/releases -qSO- | grep "Notepad++ " | sed s'|"| |g' | awk '{print $5}' | head -n1)"
@@ -22,5 +24,3 @@ jobs:
       with:
         commit_message: Trigger build for new version
         branch: master
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
