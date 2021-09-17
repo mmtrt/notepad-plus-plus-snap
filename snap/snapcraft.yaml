@@ -24,9 +24,10 @@ plugs:
     default-provider: wine-platform-6-stable
 
 environment:
-  WINEDLLOVERRIDES: "mscoree,mshtml="         # Prevent pop-ups about Wine Mono and Wine Gecko
+  WINEDLLOVERRIDES: "mscoree,mshtml=" # Prevent pop-ups about Wine Mono and Wine Gecko
   RUN_EXE: "$SNAP_USER_DATA/notepad-plus-plus/notepad-plus-plus.exe"
   SOMMELIER_KEEP_CWD: "1" # Don't change the working directory so relative paths still work
+  NO_AT_BRIDGE: "1" # Fix yad error Failed to connect to socket /tmp/dbus-xxx: No such file or directory
 
 apps:
   notepad-plus-plus:
