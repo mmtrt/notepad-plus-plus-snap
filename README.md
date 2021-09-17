@@ -16,6 +16,8 @@ distributions.</p>
 ## Install
 
     sudo snap install notepad-plus-plus
+    sudo snap connect notepad-plus-plus:removable-media
+    sudo snap connect notepad-plus-plus:cups-control
 
 ([Don't have snapd installed?](https://snapcraft.io/docs/core/install))
 
