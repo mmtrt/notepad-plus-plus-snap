@@ -12,10 +12,10 @@
 dlnpp () {
     ver=$(wget https://api.github.com/repos/notepad-plus-plus/notepad-plus-plus/releases -qO - 2>&1 | grep "Notepad++ " | sed s'|"| |g' | awk '{print $5}' | head -n1)
     if [ "${ARCHITECTURE}" = "amd64" ]; then
-     wget https://github.com/$(wget -qO- https://github.com/notepad-plus-plus/notepad-plus-plus/releases | grep download/ | cut -d '"' -f2 | sed -n 7p) &> /dev/null
+     wget https://github.com/$(wget -qO- https://github.com/notepad-plus-plus/notepad-plus-plus/releases | grep "/.*x64.exe" | cut -d '"' -f2 | head -1) &> /dev/null
      7z x -aos "npp.$ver.Installer.x64.exe" -x'!change.log' -x'!doLocalConf.xml' -x'!LICENSE' -x'!NppShell_06.dll' -x'!readme.txt' -x'!userDefinedLang-markdown.default.modern.xml' -o"usr/share/notepad-plus-plus"
     elif [ "${ARCHITECTURE}" = "i386" ]; then
-     wget https://github.com/$(wget -qO- https://github.com/notepad-plus-plus/notepad-plus-plus/releases | grep download/ | cut -d '"' -f2 | sed -n 5p) &> /dev/null
+     wget https://github.com/$(wget -qO- https://github.com/notepad-plus-plus/notepad-plus-plus/releases | grep "/.*er.exe" | cut -d '"' -f2 | head -1) &> /dev/null
      7z x -aos "npp.$ver.Installer.exe" -x'!change.log' -x'!doLocalConf.xml' -x'!LICENSE' -x'!NppShell_06.dll' -x'!readme.txt' -x'!userDefinedLang-markdown.default.modern.xml' -o"usr/share/notepad-plus-plus"
     else
      echo "ERROR! notepad-plus-plus only produces software for amd64 and i386. Failing the build here."
