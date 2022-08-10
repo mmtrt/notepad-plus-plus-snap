@@ -18,10 +18,10 @@ plugs:
     interface: content
     target: $SNAP/wine-runtime
     default-provider: wine-platform-runtime-core20
-  wine-7-stable:
+  wine-7-devel:
     interface: content
     target: $SNAP/wine-platform
-    default-provider: wine-platform-7-stable-core20
+    default-provider: wine-platform-7-devel-core20
 
 environment:
   WINEDLLOVERRIDES: "mscoree,mshtml=" # Prevent pop-ups about Wine Mono and Wine Gecko
