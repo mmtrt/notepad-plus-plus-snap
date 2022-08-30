@@ -10,18 +10,18 @@ grade: stable
 architectures:
   - build-on: amd64
   - build-on: i386
-base: core18
+base: core20
 compression: lzo
 
 plugs:
-  wine-runtime:
+  wine-runtime-c20:
     interface: content
     target: $SNAP/wine-runtime
-    default-provider: wine-platform-runtime
-  wine-6-stable:
+    default-provider: wine-platform-runtime-core20
+  wine-7-devel:
     interface: content
     target: $SNAP/wine-platform
-    default-provider: wine-platform-6-stable
+    default-provider: wine-platform-7-devel-core20
 
 environment:
   WINEDLLOVERRIDES: "mscoree,mshtml=" # Prevent pop-ups about Wine Mono and Wine Gecko
@@ -32,7 +32,7 @@ environment:
 
 apps:
   notepad-plus-plus:
-    extensions: [ gnome-3-28 ]
+    extensions: [ gnome-3-38 ]
     command: bin/sommelier run-exe
     plugs:
       - opengl
@@ -49,7 +49,7 @@ apps:
   # For example, users can configure the wine environment of this snap
   # by running `myapp.wine winecfg`.
   wine:
-    extensions: [ gnome-3-28 ]
+    extensions: [ gnome-3-38 ]
     command: bin/sommelier
     plugs:
       - home
@@ -61,7 +61,7 @@ apps:
   # The winetricks command can be used to run winetricks inside the wine
   # environment that this snap uses.
   winetricks:
-    extensions: [ gnome-3-28 ]
+    extensions: [ gnome-3-38 ]
     command: bin/sommelier winetricks
     plugs:
       - network
@@ -89,11 +89,18 @@ parts:
   sommelier:
     plugin: make
     source: https://github.com/mmtrt/sommelier-core.git
-    source-branch: "tmp"
+    source-branch: "tmp-core20"
 
   # This reverts changes from https://github.com/snapcore/snapcraft/pull/3586
   fix-fontconfig:
     plugin: nil
-    after: [gnome-3-28-extension]
+    after: [gnome-3-38-extension]
     override-prime: |
       sed -i '/snap-package/,+1d' $SNAPCRAFT_PRIME/snap/command-chain/desktop-launch
+
+  fix-bindtext:
+    plugin: nil
+    after: [gnome-3-38-extension]
+    override-prime: |
+      sed -i "$(grep -in bindtext $SNAPCRAFT_PRIME/snap/command-chain/desktop-launch | cut -d':' -f1 | tail -2 | head -1)d" $SNAPCRAFT_PRIME/snap/command-chain/desktop-launch
+      sed -i "$(grep -in bindtext $SNAPCRAFT_PRIME/snap/command-chain/desktop-launch | cut -d':' -f1 | tail -1)d" $SNAPCRAFT_PRIME/snap/command-chain/desktop-launch
