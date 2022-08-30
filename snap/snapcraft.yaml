@@ -29,6 +29,7 @@ environment:
   SOMMELIER_KEEP_CWD: "1" # Don't change the working directory so relative paths still work
   NO_AT_BRIDGE: "1" # Fix yad error Failed to connect to socket /tmp/dbus-xxx: No such file or directory
   DISABLE_WAYLAND: "1" # Fix gtk decoration under wayland session
+  SYSTEM_WGETRC: $SNAP/wine-runtime/etc/wgetrc
 
 apps:
   notepad-plus-plus:
