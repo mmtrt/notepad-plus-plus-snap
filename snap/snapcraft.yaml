@@ -74,7 +74,7 @@ parts:
     override-build: |
       snapcraftctl build
       set -ex
-      ver=$(wget 2>/dev/null https://github.com/notepad-plus-plus/notepad-plus-plus/releases -qSO- | grep -Eo ".*.x6" | head -1 | grep -Po "(\d+\.)+\d+")
+      ver=$(wget https://api.github.com/repos/notepad-plus-plus/notepad-plus-plus/releases -qO - 2>&1 | grep "Notepad++ " | sed s'|"| |g' | awk '{print $5}' | head -n1)
       snapcraftctl set-version "$ver"
       ./dl_npp
     stage:
