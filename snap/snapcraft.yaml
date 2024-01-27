@@ -89,8 +89,11 @@ parts:
   # initializes and configures Wine and installs the Windows application.
   sommelier:
     plugin: make
-    source: https://github.com/mmtrt/sommelier-core.git
-    source-branch: "tmp-core20"
+    source: https://github.com/snapcrafters/sommelier-core.git
+    source-branch: "master"
+    build-packages:
+      - libc6-dev-i386
+      - gcc-multilib
 
   # This reverts changes from https://github.com/snapcore/snapcraft/pull/3586
   fix-fontconfig:
