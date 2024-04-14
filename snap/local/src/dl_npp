@@ -13,12 +13,9 @@ dlnpp () {
     ver=$(wget https://github.com/notepad-plus-plus/notepad-plus-plus/releases -qO - 2>&1 | grep -Eo ".*.x6" | grep npp | grep -Po "(\d+\.)+\d+" | head -n1)
     if [ "${ARCHITECTURE}" = "amd64" ]; then
      wget https://github.com/$(wget -qO- https://github.com/notepad-plus-plus/notepad-plus-plus/releases | grep "/.*x64.exe" | cut -d '"' -f2 | head -1) &> /dev/null
-     7z x -aos "npp.$ver.Installer.x64.exe" -x'!change.log' -x'!doLocalConf.xml' -x'!LICENSE' -x'!NppShell_06.dll' -x'!readme.txt' -x'!userDefinedLang-markdown.default.modern.xml' -o"usr/share/notepad-plus-plus"
-    elif [ "${ARCHITECTURE}" = "i386" ]; then
-     wget https://github.com/$(wget -qO- https://github.com/notepad-plus-plus/notepad-plus-plus/releases | grep "/.*er.exe" | cut -d '"' -f2 | head -1) &> /dev/null
-     7z x -aos "npp.$ver.Installer.exe" -x'!change.log' -x'!doLocalConf.xml' -x'!LICENSE' -x'!NppShell_06.dll' -x'!readme.txt' -x'!userDefinedLang-markdown.default.modern.xml' -o"usr/share/notepad-plus-plus"
+     ./7zz x -aos "npp.$ver.Installer.x64.exe" -x'!change.log' -x'!doLocalConf.xml' -x'!LICENSE' -x'!NppShell_06.dll' -x'!readme.txt' -x'!userDefinedLang-markdown.default.modern.xml' -o"usr/share/notepad-plus-plus"
     else
-     echo "ERROR! notepad-plus-plus only produces software for amd64 and i386. Failing the build here."
+     echo "ERROR! notepad-plus-plus not found for amd64. Failing the build here."
      exit 1
     fi
 }
@@ -26,26 +23,11 @@ dlnpp () {
 dli7z16 () {
     ARCHITECTURE=$(dpkg --print-architecture)
     if [ "${ARCHITECTURE}" = "amd64" ]; then
-    debs="https://launchpad.net/ubuntu/+source/p7zip/16.02+dfsg-4/+build/13091326/+files/p7zip_16.02+dfsg-4_amd64.deb https://launchpad.net/ubuntu/+source/p7zip/16.02+dfsg-4/+build/13091326/+files/p7zip-full_16.02+dfsg-4_amd64.deb"
-    debsi="p7zip_16.02+dfsg-4_amd64.deb p7zip-full_16.02+dfsg-4_amd64.deb"
-    elif [ "${ARCHITECTURE}" = "i386" ]; then
-    debs="https://launchpad.net/ubuntu/+source/p7zip/16.02+dfsg-4/+build/13091329/+files/p7zip_16.02+dfsg-4_i386.deb https://launchpad.net/ubuntu/+source/p7zip/16.02+dfsg-4/+build/13091329/+files/p7zip-full_16.02+dfsg-4_i386.deb"
-    debsi="p7zip_16.02+dfsg-4_i386.deb p7zip-full_16.02+dfsg-4_i386.deb"
+     wget -qO- https://www.7-zip.org/a/$(wget -qO- https://www.7-zip.org | grep -Eo -m2 '7z.*.exe"' | tail -1 | sed 's/.exe"/-linux-x64.tar.xz/') | tar -J -xvf - 7zz
     else
-     echo "ERROR! No amd64 or i386 system found. Failing the build here."
+     echo "ERROR! No amd64 system found. Failing the build here."
      exit 1
     fi
-
-    for dldebs in $debs
-    do
-    wget $dldebs &> /dev/null
-    done
-
-    for pkgdebins in $debsi
-    do
-    sudo apt install ./$pkgdebins -y &> /dev/null
-    rm $pkgdebins
-    done
 }
 
 mknpp () {
