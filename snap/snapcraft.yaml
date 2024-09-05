@@ -9,18 +9,20 @@ confinement: strict
 grade: stable
 architectures:
   - build-on: amd64
-base: core20
-compression: lzo
+base: core22
 
 plugs:
-  wine-runtime-c20:
+  shmem:
+    interface: shared-memory
+    private: true
+  wine-runtime-c22:
     interface: content
     target: $SNAP/wine-runtime
-    default-provider: wine-platform-runtime-core20
-  wine-7-devel:
+    default-provider: wine-platform-runtime-core22
+  wine-9-devel:
     interface: content
     target: $SNAP/wine-platform
-    default-provider: wine-platform-7-devel-core20
+    default-provider: wine-platform-9-devel-core22
 
 environment:
   WINEDLLOVERRIDES: "mscoree,mshtml=" # Prevent pop-ups about Wine Mono and Wine Gecko
@@ -29,17 +31,16 @@ environment:
   NO_AT_BRIDGE: "1" # Fix yad error Failed to connect to socket /tmp/dbus-xxx: No such file or directory
   DISABLE_WAYLAND: "1" # Fix gtk decoration under wayland session
   SYSTEM_WGETRC: $SNAP/wine-runtime/etc/wgetrc
+  SOMMELIER_NO_THEME: 1
 
 apps:
   notepad-plus-plus:
-    extensions: [ gnome-3-38 ]
+    extensions: [gnome]
     command: bin/sommelier run-exe
     plugs:
-      - opengl
+      - shmem
       - home
       - network
-      - hardware-observe
-      - process-control
       - cups-control
       - removable-media
     desktop: usr/share/applications/notepad-plus-plus.desktop
@@ -49,19 +50,18 @@ apps:
   # For example, users can configure the wine environment of this snap
   # by running `myapp.wine winecfg`.
   wine:
-    extensions: [ gnome-3-38 ]
+    extensions: [gnome]
     command: bin/sommelier
     plugs:
+      - shmem
       - home
       - network
-      - hardware-observe
-      - process-control
       - cups-control
       - removable-media
   # The winetricks command can be used to run winetricks inside the wine
   # environment that this snap uses.
   winetricks:
-    extensions: [ gnome-3-38 ]
+    extensions: [gnome]
     command: bin/sommelier winetricks
     plugs:
       - network
@@ -71,7 +71,7 @@ parts:
     plugin: nil
     source: ./snap/local/src
     override-build: |
-      snapcraftctl build
+      craftctl default
       set -ex
       ver=$(wget https://github.com/notepad-plus-plus/notepad-plus-plus/releases -qO - 2>&1 | grep -Eo ".*.x6" | grep npp | grep -Po "(\d+\.)+\d+" | head -n1)
       snapcraftctl set-version "$ver"
@@ -88,22 +88,8 @@ parts:
   # initializes and configures Wine and installs the Windows application.
   sommelier:
     plugin: make
-    source: https://github.com/snapcrafters/sommelier-core.git
-    source-branch: "master"
+    source: https://github.com/mmtrt/sommelier-core.git
+    source-branch: "core22"
     build-packages:
       - libc6-dev-i386
       - gcc-multilib
-
-  # This reverts changes from https://github.com/snapcore/snapcraft/pull/3586
-  fix-fontconfig:
-    plugin: nil
-    after: [gnome-3-38-extension]
-    override-prime: |
-      sed -i '/snap-package/,+1d' $SNAPCRAFT_PRIME/snap/command-chain/desktop-launch
-
-  fix-bindtext:
-    plugin: nil
-    after: [gnome-3-38-extension]
-    override-prime: |
-      sed -i "$(grep -in bindtext $SNAPCRAFT_PRIME/snap/command-chain/desktop-launch | cut -d':' -f1 | tail -2 | head -1)d" $SNAPCRAFT_PRIME/snap/command-chain/desktop-launch
-      sed -i "$(grep -in bindtext $SNAPCRAFT_PRIME/snap/command-chain/desktop-launch | cut -d':' -f1 | tail -1)d" $SNAPCRAFT_PRIME/snap/command-chain/desktop-launch
