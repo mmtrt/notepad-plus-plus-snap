@@ -23,7 +23,7 @@ dlnpp () {
 dli7z16 () {
     ARCHITECTURE=$(dpkg --print-architecture)
     if [ "${ARCHITECTURE}" = "amd64" ]; then
-     wget -qO- https://www.7-zip.org/a/$(wget -qO- https://www.7-zip.org | grep -Eo -m2 '7z.*.exe"' | tail -1 | sed 's/.exe"/-linux-x64.tar.xz/') | tar -J -xvf - 7zz
+     wget -qO- https://www.7-zip.org/a/$(wget -qO- https://www.7-zip.org | grep -Eo -m2 '7z.*.exe"' | tail -1 | sed 's/.exe"/-linux-x64.tar.xz/' | cut -d'/' -f6) | tar -J -xvf - 7zz
     else
      echo "ERROR! No amd64 system found. Failing the build here."
      exit 1
