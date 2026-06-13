@@ -5,24 +5,27 @@ description: |
  Based on the powerful editing component Scintilla, notepad-plus-plus is written in C++ and uses pure Win32 API and STL which ensures a higher execution speed and smaller program size. By optimizing as many routines as possible without losing user friendliness, notepad-plus-plus is trying to reduce the world carbon dioxide emissions. When using less CPU power, the PC can throttle down and reduce power consumption, resulting in a greener environment.
 adopt-info: notepad-plus-plus
 
-confinement: strict
 grade: stable
-architectures:
-  - build-on: amd64
-base: core22
+confinement: strict
+base: core24
+platforms:
+  amd64:
+compression: lzo
+assumes:
+  - snapd2.62
 
 plugs:
   shmem:
     interface: shared-memory
     private: true
-  wine-runtime-c22:
+  wine-runtime-c24:
     interface: content
     target: $SNAP/wine-runtime
-    default-provider: wine-platform-runtime-core22
-  wine-9-devel:
+    default-provider: wine-platform-runtime-core24
+  wine-base-stable:
     interface: content
     target: $SNAP/wine-platform
-    default-provider: wine-platform-9-devel-core22
+    default-provider: wine-platform
 
 environment:
   WINEDLLOVERRIDES: "mscoree,mshtml=" # Prevent pop-ups about Wine Mono and Wine Gecko
@@ -30,8 +33,6 @@ environment:
   SOMMELIER_KEEP_CWD: "1" # Don't change the working directory so relative paths still work
   NO_AT_BRIDGE: "1" # Fix yad error Failed to connect to socket /tmp/dbus-xxx: No such file or directory
   DISABLE_WAYLAND: "1" # Fix gtk decoration under wayland session
-  SYSTEM_WGETRC: $SNAP/wine-runtime/etc/wgetrc
-  SOMMELIER_NO_THEME: 1
 
 apps:
   notepad-plus-plus:
@@ -89,7 +90,4 @@ parts:
   sommelier:
     plugin: make
     source: https://github.com/mmtrt/sommelier-core.git
-    source-branch: "core22"
-    build-packages:
-      - libc6-dev-i386
-      - gcc-multilib
+    source-branch: "core24"
