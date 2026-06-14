@@ -18,7 +18,8 @@ distributions.</p>
     sudo snap install notepad-plus-plus
     sudo snap connect notepad-plus-plus:removable-media
     sudo snap connect notepad-plus-plus:cups-control
-
+## Mandatory to connect
+    sudo snap connect notepad-plus-plus:gaming-graphics-core24 gaming-graphics-core24  
 ([Don't have snapd installed?](https://snapcraft.io/docs/core/install))
 
 ![notepad-plus-plus](screenshot.png?raw=true "notepad-plus-plus")
