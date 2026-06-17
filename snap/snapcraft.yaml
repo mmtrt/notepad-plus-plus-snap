@@ -22,7 +22,7 @@ plugs:
     interface: content
     target: $SNAP/wine-runtime
     default-provider: wine-platform-runtime-core24
-  wine-base-stable:
+  wine-base-devel:
     interface: content
     target: $SNAP/wine-platform
     default-provider: wine-platform
