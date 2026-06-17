@@ -1,0 +1,12 @@
+#!/bin/bash
+
+NPP_CONFIG="$WINEPREFIX/drive_c/users/$USER/AppData/Roaming/Notepad++/config.xml"
+
+if [[ -f "$NPP_CONFIG" ]]; then
+    DARKMODE_LINE=$(grep -o '<GUIConfig name="DarkMode"[^/]*/>' "$NPP_CONFIG")
+    if [[ "$DARKMODE_LINE" == *'enable="yes"'* ]]; then
+        "$WINELOADER" regedit "$SNAP/winedata/dark.reg"
+    else
+        "$WINELOADER" regedit "$SNAP/winedata/light.reg"
+    fi
+fi
